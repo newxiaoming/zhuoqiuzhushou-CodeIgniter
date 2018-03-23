@@ -105,3 +105,8 @@ define('SMTP_PORT',                             '25');					// your smtp port e.g
 define('SMTP_USER',                             'Your smtp user');		// your smtp user
 define('SMTP_PASS',                             'Your smtp password');	// your smtp password
 define('MAIL_PATH',                             '/usr/sbin/sendmail');
+
+/************************** 小程序桌球助手  *****************************/
+
+define('WXAPPID',                             'wx42ea5c672a6c9163');
+define('WXSECRET',                             '7c25e309cf9d4fb1634941e0084693ab');

@@ -1,5 +1,8 @@
 /application/config/database.php
 /application/config/constants.php
-
 .htaccess
-.index.php
+.buildpath
+.project
+*.sql
+/application/ci_session/*
+.settings/*
