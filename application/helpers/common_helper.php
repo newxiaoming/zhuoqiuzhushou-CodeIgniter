@@ -9,7 +9,7 @@
  * @param 请求参数  $post
  */
 if(!function_exists('curl_post')){
-    function curl_post($url, $post, $cookie,$headers = []) {
+    function curl_post($url, $post, $cookie,$headers = [],$is_check_https = FALSE) {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);//登录提交的地址
         curl_setopt($curl, CURLOPT_HEADER, 0);//是否显示头信息
@@ -21,7 +21,16 @@ if(!function_exists('curl_post')){
         {
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         }
-        // curl_setopt($curl, CURLOPT_PROXY, 'http://127.0.0.1:8888');
+        if($is_check_https)
+        {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE); //这个是重点,规避ssl的证书检查。
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, TRUE); // 跳过host验证
+        }else
+        {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //这个是重点,规避ssl的证书检查。
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); // 跳过host验证
+        }
+//         curl_setopt($curl, CURLOPT_PROXY, 'http://127.0.0.1:8888');
         $rs =  curl_exec($curl);//执行cURL
         curl_close($curl);//关闭cURL资源，并且释放系统资源
         return $rs;

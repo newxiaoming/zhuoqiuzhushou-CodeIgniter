@@ -96,5 +96,8 @@ $route['api/player/submitgame'] = 'Api_Players/submit_game';
 $route['api/zhuqiugame/submitgame'] = 'Api_Players/submit_game';
 $route['api/zhuqiugame/submitbet'] = 'Api_Players/submit_bet';
 $route['api/zhuqiugame/getbet'] = 'Api_Players/get_bet';
+$route['api/zhuqiugame/getbetcount'] = 'Api_Players/get_bet_count';
+$route['api/zhuqiugame/getbetresult'] = 'Api_Players/get_bet_result';
+$route['api/zhuoqiugame/getgamers'] = 'Api_Players/get_gamers';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
