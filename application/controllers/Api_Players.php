@@ -230,7 +230,7 @@ class Api_Players extends CI_Controller
         
         $rs = $this->game_model->get_gamers($game_id);
         foreach ($rs as $key=>$value){
-            $ids[] = $value['gamer'];
+            $ids[] = $value['id'];
         }
         
         $open_id = $this->input->get('_id');
@@ -244,7 +244,7 @@ class Api_Players extends CI_Controller
         $this->output
         ->set_status_header(200)
         ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode(['status'=>200, 'data'=>$data['data'],'count'=>$count,'isbet'=>$isbet, 'winner'=>$winner->winner,'income'=>$data['winner_income']], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+        ->set_output(json_encode(['status'=>200, 'data'=>$data['data'],'count'=>$count,'isbet'=>$isbet, 'winner'=>$winner->winner,'income'=>isset($data['winner_income'])?$data['winner_income']:0], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
         ->_display();
         exit;
     }

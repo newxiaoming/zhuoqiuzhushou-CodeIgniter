@@ -5,9 +5,9 @@ class Players_model extends CI_Model
     /*
      * $pageing 是否分页
      */    
-    function list($searchText = '', $pageing = TRUE, $page=1, $segment= 1)
+    function playerslist($searchText = '', $pageing = TRUE, $page=1, $segment= 1)
 	{
-		$this->db->select('id,name,brokerage,odds');
+		$this->db->select('id,name,brokerage,odds,total, victory');
 		if($pageing)
 		{
 		    $this->db->limit($page, $segment);		    

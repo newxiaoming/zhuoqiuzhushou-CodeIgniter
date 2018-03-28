@@ -28,6 +28,7 @@ class Game_model extends CI_Model
     {
         if($data['status'] == 'off')
         {
+            $this->db->trans_start();
             $this->db->set('updated_at',date('Y-m-d H:i:s'));
             $this->db->set('status', $data['status']);
             $this->db->set('winner', $data['winner']);
@@ -35,18 +36,17 @@ class Game_model extends CI_Model
             $this->db->where('id',$data['game_id']);
             $this->db->update('tbl_game');
             
+            //更新选手的胜局
+            $this->db->set('updated_at',date('Y-m-d H:i:s'));
+            $this->db->set('victory', 'victory+1',FALSE);
+            $this->db->where('id',$data['winner']);
+            $this->db->update('tbl_players');
+            
+            $this->db->trans_complete();
+            
             return $data['winner'];
         }
         
-//         $data = array(
-//             'banker_openid' => $data['banker_openid'],
-//             'players' => json_encode($data['ids']),
-//             'created_at'=>date('Y-m-d H:i:s'),
-//             'updated_at'=>'',
-//             'status'=>$data['status'],
-//             'gamer_a' => json_decode($data['ids'],true)[0],
-//             'gamer_b' => json_decode($data['ids'],true)[0],
-//         );
         
         $this->db->trans_start();
         
@@ -86,6 +86,34 @@ class Game_model extends CI_Model
         
         $this->db->insert_batch('tbl_gamers', $gamers);
         
+        //更新每个选手的比赛局数
+        $this->db->set('updated_at',date('Y-m-d H:i:s'));
+        $this->db->set('total', 'total+1',FALSE);        
+        $this->db->where('id',json_decode($data['ids'],true)[0]);
+        $this->db->or_where('id',json_decode($data['ids'],true)[1]);
+        $this->db->update('tbl_players');
+        
+//         $this->db->set('updated_at',date('Y-m-d H:i:s'));
+//         $this->db->set('total', 'total+1',FALSE);
+//         $this->db->where('id',json_decode($data['ids'],true)[0]);
+//         $this->db->update('tbl_players');
+        
+//         $players_update_data = array(
+//             array(
+//                 'updated_at' => date('Y-m-d H:i:s') ,
+//                 'total' => 'total+1' ,
+//                 'id' => json_decode($data['ids'],true)[0],
+//             ),
+//             array(
+//                 'updated_at' => date('Y-m-d H:i:s') ,
+//                 'total' => 'total+1' ,
+//                 'id' => json_decode($data['ids'],true)[1]
+//             )
+//         );
+        
+//         $this->db->update_batch('tbl_players', $players_update_data, 'id');
+        
+        
 //         $this->db->insert('tbl_game', $data);
 //         $insert_id = $this->db->insert_id();
         
@@ -99,8 +127,9 @@ class Game_model extends CI_Model
      */
     function get_gamers($game_id)
     {
-        $this->db->select("gamer as id");
+        $this->db->select("gamer as id,brokerage,odds");
         $this->db->from("tbl_gamers");
+        $this->db->join('tbl_players','tbl_players.id = tbl_gamers.gamer');
         $this->db->where("game_id", $game_id);
         $this->db->order_by('type','DESC');
         $query = $this->db->get();
