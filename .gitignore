@@ -6,3 +6,4 @@
 *.sql
 /application/ci_session/*
 .settings/*
+.idea/*

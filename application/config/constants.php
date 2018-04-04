@@ -108,5 +108,5 @@ define('MAIL_PATH',                             '/usr/sbin/sendmail');
 
 /************************** 小程序桌球助手  *****************************/
 
-define('WXAPPID',                             'wx42ea5c672a6c9163');
-define('WXSECRET',                             '7c25e309cf9d4fb1634941e0084693ab');
+define('WXAPPID',                             'wxcf804c9245111c9b');
+define('WXSECRET',                             'edbf4762c6c7489655d9e37ba1290fba');
